@@ -45,7 +45,18 @@ post "/" do
     elsif is_channel_blacklisted?(params[:channel_name])
       response = "Sorry, can't play in this channel."
     elsif params[:text].match(/^jeopardy me/i)
-      response = respond_with_question(params)
+      local_time = Time.now.localtime(ENV["UTC_OFFSET"])
+      hour = local_time.hour
+      min = local_time.min
+      restraint = "FORCED_SELF_RESTRAINT"
+      if (hour < ENV["#{restraint}_START_HOUR"].to_i
+          hour == ENV["#{restraint}_FREE_HOUR"].to_i or
+          hour > ENV["#{restraint}_END_HOUR"].to_i or
+          (min < ENV["#{restraint}_ENABLED_WINDOW_MINUTES"].to_i + 1))
+        response = respond_with_question(params)
+      else
+        response = trebek_me
+      end
     elsif params[:text].match(/my score$/i)
       response = respond_with_user_score(params[:user_id])
     elsif params[:text].match(/^help$/i)
