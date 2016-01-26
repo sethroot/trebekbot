@@ -223,7 +223,10 @@ def is_correct_answer?(correct, answer)
             .gsub(/^(the|a|an) /i, "")
             .strip
             .downcase
-  answer = answer[0..answer.index("(")-1]
+
+  if answer.index("(")
+    answer = answer[0..answer.index("(")-1].strip
+  end
   answer = answer
            .gsub(/\s+(&nbsp;|&)\s+/i, " and ")
            .gsub(/[^\w\s]/i, "")
