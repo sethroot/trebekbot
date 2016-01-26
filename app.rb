@@ -49,8 +49,8 @@ post "/" do
       hour = local_time.hour
       min = local_time.min
       restraint = "FORCED_SELF_RESTRAINT"
-      if (localtime.saturday? or
-          localtime.sunday? or
+      if (local_time.saturday? or
+          local_time.sunday? or
           hour < ENV["#{restraint}_START_HOUR"].to_i or
           hour == ENV["#{restraint}_FREE_HOUR"].to_i or
           (hour > ENV["#{restraint}_END_HOUR"].to_i - 1) or
