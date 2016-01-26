@@ -53,7 +53,7 @@ post "/" do
           localtime.sunday? or
           hour < ENV["#{restraint}_START_HOUR"].to_i or
           hour == ENV["#{restraint}_FREE_HOUR"].to_i or
-          hour > ENV["#{restraint}_END_HOUR"].to_i or
+          (hour > ENV["#{restraint}_END_HOUR"].to_i - 1) or
           (min < ENV["#{restraint}_ENABLED_WINDOW_MINUTES"].to_i + 1))
         response = respond_with_question(params)
       else
